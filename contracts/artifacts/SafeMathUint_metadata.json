@@ -1,0 +1,45 @@
+{
+	"compiler": {
+		"version": "0.8.15+commit.e14f2714"
+	},
+	"language": "Solidity",
+	"output": {
+		"abi": [],
+		"devdoc": {
+			"kind": "dev",
+			"methods": {},
+			"version": 1
+		},
+		"userdoc": {
+			"kind": "user",
+			"methods": {},
+			"version": 1
+		}
+	},
+	"settings": {
+		"compilationTarget": {
+			"contracts/ChainD.sol": "SafeMathUint"
+		},
+		"evmVersion": "london",
+		"libraries": {},
+		"metadata": {
+			"bytecodeHash": "ipfs"
+		},
+		"optimizer": {
+			"enabled": true,
+			"runs": 200
+		},
+		"remappings": []
+	},
+	"sources": {
+		"contracts/ChainD.sol": {
+			"keccak256": "0x1369ddfb8c9aa6a26b4f984ec8218110ef3c645cc01fb1aab9bc5bf199c13b80",
+			"license": "MIT",
+			"urls": [
+				"bzz-raw://7838970bcd50c74fbc98b59497b2de0334d3032a6c9e78a4dbf1ebb945d1c031",
+				"dweb:/ipfs/QmfDGuGZDTC6Uwjopki9yQG6fUjoEdJq5C1L8czsJ5jdU9"
+			]
+		}
+	},
+	"version": 1
+}
