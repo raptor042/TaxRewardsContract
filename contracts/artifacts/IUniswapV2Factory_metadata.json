@@ -197,11 +197,11 @@
 	},
 	"sources": {
 		"contracts/ChainD.sol": {
-			"keccak256": "0x1369ddfb8c9aa6a26b4f984ec8218110ef3c645cc01fb1aab9bc5bf199c13b80",
+			"keccak256": "0xe9eda7006affbf8ebcc1d43f0961e5c4bf4b4e8ff69242ae6cc97fa4bac43f03",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://7838970bcd50c74fbc98b59497b2de0334d3032a6c9e78a4dbf1ebb945d1c031",
-				"dweb:/ipfs/QmfDGuGZDTC6Uwjopki9yQG6fUjoEdJq5C1L8czsJ5jdU9"
+				"bzz-raw://8e8105c3e5c3ee8ede54d53fa3ec0d29288bce8aac37fcc76260684b6b166687",
+				"dweb:/ipfs/QmPqu1bL6wK8MT42RdcR9o4RKRffnaUHXFbdm3vCUg1gdn"
 			]
 		}
 	},

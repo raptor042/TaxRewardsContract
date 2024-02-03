@@ -938,7 +938,9 @@ contract ChainD is ERC20, Ownable {
     ChainDDividendTracker public dividendTracker;
 
     address payable public marketingWallet;
-    address payable public devWallet;
+    address payable public companyWallet;
+    address payable public donationsWallet;
+    address payable public leadersWallet;
 
     // Max tx, dividend threshold and tax variables
     uint256 public maxWallet;
@@ -1040,7 +1042,7 @@ contract ChainD is ERC20, Ownable {
         uint256 tokensIntoLiqudity
     );
 
-    event SendDividends(uint256 amount, uint256 opAmount, bool success);
+    event SendDividends(uint256 amount, uint256 opAmount);
 
     event ProcessedDividendTracker(
         uint256 iterations,
@@ -1055,7 +1057,9 @@ contract ChainD is ERC20, Ownable {
 
     constructor() ERC20("ChainD", "CHD") {
         marketingWallet = payable(msg.sender);
-        devWallet = payable(msg.sender);
+        companyWallet = payable(msg.sender);
+        donationsWallet = payable(msg.sender);
+        leadersWallet = payable(msg.sender);
         dividendTracker = new ChainDDividendTracker(
             payable(this),
             router,
@@ -1080,19 +1084,26 @@ contract ChainD is ERC20, Ownable {
         dividendTracker.excludedFromDividends(address(0));
         dividendTracker.excludeFromDividends(router);
         dividendTracker.excludeFromDividends(marketingWallet);
+        dividendTracker.excludeFromDividends(companyWallet);
+        dividendTracker.excludeFromDividends(donationsWallet);
+        dividendTracker.excludeFromDividends(leadersWallet);
         dividendTracker.excludeFromDividends(owner());
 
         // exclude from paying fees or having max transaction amount
         _isExcludedFromFees[address(this)] = true;
         _isExcludedFromFees[address(dividendTracker)] = true;
         _isExcludedFromFees[address(marketingWallet)] = true;
-        _isExcludedFromFees[address(devWallet)] = true;
+        _isExcludedFromFees[address(companyWallet)] = true;
+        _isExcludedFromFees[address(leadersWallet)] = true;
+        _isExcludedFromFees[address(donationsWallet)] = true;
         _isExcludedFromFees[msg.sender] = true;
 
         _isExcludedFromMaxTx[address(this)] = true;
         _isExcludedFromMaxTx[address(dividendTracker)] = true;
         _isExcludedFromMaxTx[address(marketingWallet)] = true;
-        _isExcludedFromMaxTx[address(devWallet)] = true;
+        _isExcludedFromMaxTx[address(companyWallet)] = true;
+        _isExcludedFromMaxTx[address(donationsWallet)] = true;
+        _isExcludedFromMaxTx[address(leadersWallet)] = true;
         _isExcludedFromMaxTx[msg.sender] = true;
 
         uint256 totalTokenSupply = (10_000_000) * (10**18);
@@ -1689,10 +1700,6 @@ contract ChainD is ERC20, Ownable {
         swapTokensForEth(tokens);
         uint256 totalAmount = buyAmount.add(sellAmount);
 
-        bool success = true;
-        bool successOp1 = true;
-        bool successOp2 = true;
-
         uint256 dividends;
         uint256 dividendsFromBuy;
         uint256 dividendsFromSell;
@@ -1712,7 +1719,7 @@ contract ChainD is ERC20, Ownable {
         dividends = dividendsFromBuy.add(dividendsFromSell);
 
         if (dividends > 0) {
-            (success, ) = address(dividendTracker).call{value: dividends}("");
+            (bool success, ) = address(dividendTracker).call{value: dividends}("");
         }
         
         uint256 _completeFees = sellMarketingFee.add(sellCompanyFee).add(sellLeadersFee) +
@@ -1723,45 +1730,79 @@ contract ChainD is ERC20, Ownable {
             feePortions = address(this).balance.div(_completeFees);
         }
         uint256 marketingPayout = buyMarketingFee.add(sellMarketingFee) * feePortions;
-        uint256 devPayout = buyCompanyFee.add(sellCompanyFee).add(buyLeadersFee).add(sellLeadersFee) * feePortions;
+        uint256 companyPayout = buyCompanyFee.add(sellCompanyFee) * feePortions;
+        uint256 donationsPayout = buyDonationsFee.add(sellDonationsFee) * feePortions;
+        uint256 leadersPayout = buyLeadersFee.add(sellLeadersFee) * feePortions;
+        
 
         if (marketingPayout > 0) {
             // Before
-            // (successOp1, ) = address(marketingWallet).call{value: marketingPayout}("");
+            (bool successOp1, ) = address(marketingWallet).call{value: marketingPayout}("");
 
             // After
-            address[] memory path = new address[](2);
-            path[0] = uniswapV2Router.WETH();
-            path[1] = payoutToken;
+            // address[] memory path = new address[](2);
+            // path[0] = uniswapV2Router.WETH();
+            // path[1] = payoutToken;
 
-            uniswapV2Router.swapExactETHForTokens{value: marketingPayout}(
-                0,
-                path,
-                devWallet,
-                block.timestamp
-            );
+            // uniswapV2Router.swapExactETHForTokens{value: marketingPayout}(
+            //     0,
+            //     path,
+            //     marketingWallet,
+            //     block.timestamp
+            // );
         }
-        if (devPayout > 0) {
+        if (companyPayout > 0) {
             // Before
-            // (successOp2, ) = address(devWallet).call{value: devPayout}("");
+            (bool successOp2, ) = address(companyWallet).call{value: companyPayout}("");
 
             // After
-            address[] memory path = new address[](2);
-            path[0] = uniswapV2Router.WETH();
-            path[1] = payoutToken;
+            // address[] memory path = new address[](2);
+            // path[0] = uniswapV2Router.WETH();
+            // path[1] = payoutToken;
 
-            uniswapV2Router.swapExactETHForTokens{value: devPayout}(
-                0,
-                path,
-                devWallet,
-                block.timestamp
-            );
+            // uniswapV2Router.swapExactETHForTokens{value: companyPayout}(
+            //     0,
+            //     path,
+            //     companyWallet,
+            //     block.timestamp
+            // );
+        }
+        if (donationsPayout > 0) {
+            // Before
+            (bool successOp3, ) = address(donationsWallet).call{value: donationsPayout}("");
+
+            // After
+            // address[] memory path = new address[](2);
+            // path[0] = uniswapV2Router.WETH();
+            // path[1] = payoutToken;
+
+            // uniswapV2Router.swapExactETHForTokens{value: donationsPayout}(
+            //     0,
+            //     path,
+            //     donationsWallet,
+            //     block.timestamp
+            // );
+        }
+        if (leadersPayout > 0) {
+            // Before
+            (bool successOp4, ) = address(leadersWallet).call{value: leadersPayout}("");
+
+            // After
+            // address[] memory path = new address[](2);
+            // path[0] = uniswapV2Router.WETH();
+            // path[1] = payoutToken;
+
+            // uniswapV2Router.swapExactETHForTokens{value: leadersPayout}(
+            //     0,
+            //     path,
+            //     leadersWallet,
+            //     block.timestamp
+            // );
         }
 
         emit SendDividends(
             dividends,
-            marketingPayout + devPayout,
-            success && successOp1 && successOp2
+            marketingPayout + companyPayout + donationsPayout + leadersPayout
         );
     }
 
