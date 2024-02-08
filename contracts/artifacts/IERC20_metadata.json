@@ -1,6 +1,6 @@
 {
 	"compiler": {
-		"version": "0.8.15+commit.e14f2714"
+		"version": "0.8.17+commit.8df45f5f"
 	},
 	"language": "Solidity",
 	"output": {
@@ -124,6 +124,45 @@
 			},
 			{
 				"inputs": [],
+				"name": "decimals",
+				"outputs": [
+					{
+						"internalType": "uint8",
+						"name": "",
+						"type": "uint8"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "name",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
+				"name": "symbol",
+				"outputs": [
+					{
+						"internalType": "string",
+						"name": "",
+						"type": "string"
+					}
+				],
+				"stateMutability": "view",
+				"type": "function"
+			},
+			{
+				"inputs": [],
 				"name": "totalSupply",
 				"outputs": [
 					{
@@ -202,7 +241,7 @@
 	},
 	"settings": {
 		"compilationTarget": {
-			"contracts/ChainD.sol": "IERC20"
+			"contracts/MyB2B.sol": "IERC20"
 		},
 		"evmVersion": "london",
 		"libraries": {},
@@ -216,12 +255,12 @@
 		"remappings": []
 	},
 	"sources": {
-		"contracts/ChainD.sol": {
-			"keccak256": "0xe9eda7006affbf8ebcc1d43f0961e5c4bf4b4e8ff69242ae6cc97fa4bac43f03",
+		"contracts/MyB2B.sol": {
+			"keccak256": "0x428e38bd407984cf6a10f80143764c97e83b061e1e3f7d6c6b486e4ceb485495",
 			"license": "MIT",
 			"urls": [
-				"bzz-raw://8e8105c3e5c3ee8ede54d53fa3ec0d29288bce8aac37fcc76260684b6b166687",
-				"dweb:/ipfs/QmPqu1bL6wK8MT42RdcR9o4RKRffnaUHXFbdm3vCUg1gdn"
+				"bzz-raw://f2ba2672f65ef045f498353d0fffa36f132c69c43b0981fdeaa79c24cac692c3",
+				"dweb:/ipfs/QmRZYzGiFuzdUdP3i9kiyjYZ7JB8uXj8QRsgm8C6kmLDoZ"
 			]
 		}
 	},
